@@ -48,9 +48,8 @@ public class TrieTreeUtil {
 
     private String contains(char[] keys, int begin, HashMap<Character, TrieNode> children, boolean isReturn){
         StringBuffer ret = null;
-        HashMap<Character, TrieNode> point = children;
         for(int i = begin; i < keys.length; i++){
-            TrieNode node = point.get(keys[i]);
+            TrieNode node = children.get(keys[i]);
             if (node == null) {
                 return null;
             }
@@ -63,18 +62,17 @@ public class TrieTreeUtil {
             if(node.isWord()){
                 return isReturn ? ret.toString() : "";
             }
-            point = node.getChildren();
+            children = node.getChildren();
         }
         return null;
     }
 
     private void add(char[] keys, HashMap<Character, TrieNode> children){
-        HashMap<Character, TrieNode> point = children;
         for (int i = 0; i < keys.length; i++) {
-            TrieNode node = point.get(keys[i]);
+            TrieNode node = children.get(keys[i]);
             if (node == null) {
                 node = new TrieNode();
-                point.put(keys[i], node);
+                children.put(keys[i], node);
             }
             if (i == (keys.length - 1)) {
                 node.setWord(true);
@@ -83,7 +81,7 @@ public class TrieTreeUtil {
             if (node.getChildren() == null) {
                 node.setChildren(new HashMap<>());
             }
-            point = node.getChildren();
+            children = node.getChildren();
         }
     }
 
