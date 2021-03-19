@@ -29,3 +29,15 @@ public class TrieTreeTest {
     }
 }
 ```
+
+打印如下：
+```
+true
+true
+true
+false
+和平
+未来
+那咋办嘛
+null
+```
