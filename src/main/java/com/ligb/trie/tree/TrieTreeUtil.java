@@ -62,10 +62,6 @@ public class TrieTreeUtil {
         return null;
     }
 
-    private void add(char[] keys, HashMap<Character, TrieNode> children){
-
-    }
-
     public HashMap<Character, TrieNode> getChildren() {
         return children;
     }
