@@ -5,15 +5,15 @@ import java.util.HashMap;
 
 public class TrieNode implements Serializable {
 
-    private boolean isWord = false;
+    private String word;
     private HashMap<Character, TrieNode> children;
 
-    public boolean isWord() {
-        return isWord;
+    public String getWord() {
+        return word;
     }
 
-    public void setWord(boolean word) {
-        isWord = word;
+    public void setWord(String word) {
+        this.word = word;
     }
 
     public HashMap<Character, TrieNode> getChildren() {

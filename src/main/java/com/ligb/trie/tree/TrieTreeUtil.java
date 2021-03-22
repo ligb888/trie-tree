@@ -13,32 +13,34 @@ public class TrieTreeUtil {
             return;
         }
         word = word.trim().replace(" ", "");
-        add(word.toCharArray(), children);
-    }
 
-    public boolean contains(String word){
-        if(StringUtils.isBlank(word) || StringUtils.isBlank(word.trim())){
-            return false;
-        }
-        word = word.trim().replace(" ", "");
         char[] keys = word.toCharArray();
-        for(int i = 0; i < keys.length; i++){
-            String ret = contains(keys, i, children, false);
-            if(ret != null){
-                return true;
+        HashMap<Character, TrieNode> point = children;
+        for (int i = 0; i < keys.length; i++) {
+            TrieNode node = point.get(keys[i]);
+            if (node == null) {
+                node = new TrieNode();
+                point.put(keys[i], node);
             }
+            if (i == (keys.length - 1)) {
+                node.setWord(word);
+                break;
+            }
+            if (node.getChildren() == null) {
+                node.setChildren(new HashMap<>());
+            }
+            point = node.getChildren();
         }
-        return false;
     }
 
-    public String containsReturn(String word){
+    public String contains(String word){
         if(StringUtils.isBlank(word) || StringUtils.isBlank(word.trim())){
             return null;
         }
         word = word.trim().replace(" ", "");
         char[] keys = word.toCharArray();
         for(int i = 0; i < keys.length; i++){
-            String ret = contains(keys, i, children, true);
+            String ret = contains(keys, i, children);
             if(ret != null){
                 return ret;
             }
@@ -46,21 +48,14 @@ public class TrieTreeUtil {
         return null;
     }
 
-    private String contains(char[] keys, int begin, HashMap<Character, TrieNode> children, boolean isReturn){
-        StringBuffer ret = null;
+    private String contains(char[] keys, int begin, HashMap<Character, TrieNode> children){
         for(int i = begin; i < keys.length; i++){
             TrieNode node = children.get(keys[i]);
             if (node == null) {
                 return null;
             }
-            if(isReturn){
-                if(ret == null){
-                    ret = new StringBuffer();
-                }
-                ret.append(keys[i]);
-            }
-            if(node.isWord()){
-                return isReturn ? ret.toString() : "";
+            if(node.getWord() != null){
+                return node.getWord();
             }
             children = node.getChildren();
         }
@@ -68,21 +63,7 @@ public class TrieTreeUtil {
     }
 
     private void add(char[] keys, HashMap<Character, TrieNode> children){
-        for (int i = 0; i < keys.length; i++) {
-            TrieNode node = children.get(keys[i]);
-            if (node == null) {
-                node = new TrieNode();
-                children.put(keys[i], node);
-            }
-            if (i == (keys.length - 1)) {
-                node.setWord(true);
-                break;
-            }
-            if (node.getChildren() == null) {
-                node.setChildren(new HashMap<>());
-            }
-            children = node.getChildren();
-        }
+
     }
 
     public HashMap<Character, TrieNode> getChildren() {
